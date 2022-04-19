@@ -1,19 +1,23 @@
 const express = require('express');
 const app = express();
 const PORT = 8081;
+const cors = require('cors');
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
-app.listen(PORT, () => console.log('It\'s alive on: http://localhost:' + PORT))
+app.listen(PORT, () => console.log('Listening on ' + PORT));
 
 let messages = {
     1: {
+        title: "Important Test",
         message: "test",
         userid: 1,
         date: "30/03/2022",
         time: "13:36:00"
     },
     2: {
+        title: "Super Important Test",
         message: "double test",
         userid: 1,
         date: "30/03/2022",
@@ -45,6 +49,7 @@ app.get('/msg/:id', (req, res) => {
 app.post('/msg', (req, res) => {
     if(!!req.body.message && !!req.body.userid && !!req.body.date && !!req.body.time) {
         var newMessage = {
+            title: req.body.title,
             message: req.body.message,
             userid: req.body.userid,
             date: req.body.date,
