@@ -26,12 +26,12 @@ let messages = {
 }
 
 //Get all messages
-app.get('/msg', (req, res) => {
+app.get('/api/msg', (req, res) => {
     res.status(200).send(messages);
 });
 
 //Get a message by ID
-app.get('/msg/:id', (req, res) => {
+app.get('/api/msg/:id', (req, res) => {
     var message = messages[req.params.id]
 
     if(!!message) {
@@ -46,7 +46,7 @@ app.get('/msg/:id', (req, res) => {
 });
 
 //Post a message
-app.post('/msg', (req, res) => {
+app.post('/api/msg', (req, res) => {
     if(!!req.body.message && !!req.body.userid && !!req.body.date && !!req.body.time) {
         var newMessage = {
             title: req.body.title,
@@ -66,7 +66,7 @@ app.post('/msg', (req, res) => {
 });
 
 //Delete a message
-app.delete('/msg/:id', (req, res) => {
+app.delete('/api/msg/:id', (req, res) => {
     if(!!messages[req.params.id]) {
         delete messages[req.params.id]
         res.status(200).send(messages)
