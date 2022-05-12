@@ -26,7 +26,7 @@ let messages = {
 }
 
 //Get all messages
-app.get('/api/msg', (req, res) => {
+app.get('/api/msg', (_req, res) => {
     res.status(200).send(messages);
 });
 
@@ -36,12 +36,10 @@ app.get('/api/msg/:id', (req, res) => {
 
     if(!!message) {
         res.status(200).send(message);
-        return
     }
     else
     {
-        throw 'Message by id ' + req.params.id + ' does not exist';
-        return
+        throw Error('Message by id ' + req.params.id + ' does not exist');
     }
 });
 
@@ -57,11 +55,11 @@ app.post('/api/msg', (req, res) => {
         }
 
         messages[Object.keys(messages).length+1] = newMessage;
-        res.status(200).send(messages);
+        res.status(200);
     }
     else
     {
-        throw 'Missing parameter'
+        throw new Error('Missing parameter');
     }
 });
 
@@ -69,10 +67,10 @@ app.post('/api/msg', (req, res) => {
 app.delete('/api/msg/:id', (req, res) => {
     if(!!messages[req.params.id]) {
         delete messages[req.params.id]
-        res.status(200).send(messages)
+        res.status(200);
     }
     else
     {
-        throw 'Message with ID ' + req.params.id + ' does not exist.'
+        throw new Error('Message with ID ' + req.params.id + ' does not exist.');
     }
 })
