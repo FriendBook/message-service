@@ -10,15 +10,15 @@ app.listen(PORT, () => console.log('Listening on ' + PORT));
 
 let messages = {
     1: {
-        title: "Important Test",
-        message: "test",
+        title: "Trying out Friendbook!",
+        message: "This website is amazing!",
         userid: 1,
         date: "30/03/2022",
         time: "13:36:00"
     },
     2: {
-        title: "Super Important Test",
-        message: "double test",
+        title: "First Post!",
+        message: "This is my first post, hope to see more!",
         userid: 1,
         date: "30/03/2022",
         time: "14:36:00"
@@ -55,7 +55,7 @@ app.post('/api/msg', (req, res) => {
         }
 
         messages[Object.keys(messages).length+1] = newMessage;
-        res.status(200);
+        res.status(200).send();
     }
     else
     {
@@ -67,7 +67,7 @@ app.post('/api/msg', (req, res) => {
 app.delete('/api/msg/:id', (req, res) => {
     if(!!messages[req.params.id]) {
         delete messages[req.params.id]
-        res.status(200);
+        res.status(200).send();
     }
     else
     {
