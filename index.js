@@ -15,7 +15,7 @@ const uri =
 const client = new MongoClient(uri);
 client.connect();
 
-amqp.connect("amqp://localhost", function (error0, connection) {
+amqp.connect("amqp://rabbitmq:5672", function (error0, connection) {
   if (error0) {
     throw error0;
   }
