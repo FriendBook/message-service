@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 8081;
 const cors = require("cors");
-var amqp = require("amqplib/callback_api");
+const amqp = require("amqplib/callback_api");
 const { MongoClient, ObjectId } = require("mongodb");
 
 app.use(express.json());
@@ -15,7 +15,7 @@ const uri =
 const client = new MongoClient(uri);
 client.connect();
 
-amqp.connect("amqp://rabbitmq:5672", function (error0, connection) {
+amqp.connect("amqp://localhost", function (error0, connection) {
   if (error0) {
     throw error0;
   }
@@ -31,7 +31,7 @@ amqp.connect("amqp://rabbitmq:5672", function (error0, connection) {
     channel.consume(
       "posts",
       function (msg) {
-        var operation = JSON.parse(msg.content);
+        const operation = JSON.parse(msg.content);
         switch (operation.type) {
           case "update":
             client
@@ -81,10 +81,10 @@ app.get("/api/msg/usr/:id", (req, res) => {
     .db("friendbook-messages")
     .collection("messages")
     .find({ userid: req.params.id })
-    .toArray(function (err, msgs) {
+    .toArray(function (err, messages) {
       if (err) throw err;
 
-      res.status(200).send(msgs);
+      res.status(200).send(messages);
     });
 });
 app.get("/api/msg/getid", (req, res) => {
@@ -92,11 +92,11 @@ app.get("/api/msg/getid", (req, res) => {
     .db("friendbook-messages")
     .collection("messages")
     .findOne({
-      username: req.body.username,
-      time: req.body.time,
-      date: req.body.date,
-      title: req.body.title,
-      message: req.body.message,
+      username: req.body.username.toString(),
+      time: req.body.time.toString(),
+      date: req.body.date.toString(),
+      title: req.body.title.toString(),
+      message: req.body.message.toString(),
     })
     .then((ans) => res.status(200).send(ans._id));
 });
@@ -106,12 +106,12 @@ app.post("/api/msg/:id", (req, res) => {
     .db("friendbook-messages")
     .collection("messages")
     .insertOne({
-      userid: req.params.id,
-      username: req.body.name,
-      date: req.body.date,
-      time: req.body.time,
-      title: req.body.title,
-      message: req.body.message,
+      userid: req.params.id.toString(),
+      username: req.body.name.toString(),
+      date: req.body.date.toString(),
+      time: req.body.time.toString(),
+      title: req.body.title.toString(),
+      message: req.body.message.toString(),
     })
     .then(res.status(200).send());
 });
