@@ -15,7 +15,7 @@ const uri =
 const client = new MongoClient(uri);
 client.connect();
 
-amqp.connect("amqp://localhost", function (error0, connection) {
+amqp.connect("amqp://rabbitmq:5672", function (error0, connection) {
   if (error0) {
     throw error0;
   }
@@ -24,12 +24,12 @@ amqp.connect("amqp://localhost", function (error0, connection) {
       throw error1;
     }
 
-    channel.assertQueue("actions", {
+    channel.assertQueue("posts", {
       durable: false,
     });
 
     channel.consume(
-      "actions",
+      "posts",
       function (msg) {
         var operation = JSON.parse(msg.content);
         switch (operation.type) {
@@ -37,8 +37,8 @@ amqp.connect("amqp://localhost", function (error0, connection) {
             client
               .db("friendbook-messages")
               .collection("messages")
-              .updateOne(
-                { _id: operation.id },
+              .updateMany(
+                { userid: operation.id },
                 { $set: { username: `${operation.name}` } }
               );
             break;
