@@ -5,25 +5,11 @@ const cors = require("cors");
 const amqp = require("amqplib/callback_api");
 const { MongoClient, ObjectId } = require("mongodb");
 const jwt = require("jsonwebtoken");
-const session = require("express-session");
-const Keycloak = require("keycloak-connect");
 
 app.use(express.json());
 app.use(cors());
 
 app.listen(PORT, () => console.log("Listening on " + PORT));
-
-const kcConfig = {
-  clientId: "react-auth",
-  bearerOnly: true,
-  serverUrl: "http://localhost:8080/auth/",
-  realm: "Friendbook",
-  realmPublicKey:
-    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi60VZKmGbOEmHJgV2nTylCNjzyLa1DRKDChAoPgWGbURzer1Ba8mivPOlxP2+wr+w/cNcagz4n+N3+03kMa7XEPhzh5C6rMQh38Dw9S43QRF3hbv88sqaweG0KvD5NOrlYLJmJ6RGb2fH6dC0IQ4JkBhtQ6Wa3kt0Omum8f7aLR5BmmEkK77/ebFtoUNPVASP9Y8LR0fO8TjcZwf6OGShI6BOYAtHdErg6lPPIzR2EYg0JR8wCT96zQv0DV9OCyaDqRXaEb2G8fatNxGOWNBG7xTxUgidNxM/BAD22DqTYXm56JF4DchSPU63Mqd3z7wsUG9KjfQSEVgPbsGhEU4cQIDAQAB",
-};
-
-const memoryStore = new session.MemoryStore();
-const keycloak = new Keycloak({ store: memoryStore }, kcConfig);
 
 let secret = [
   "-----BEGIN PUBLIC KEY-----",
